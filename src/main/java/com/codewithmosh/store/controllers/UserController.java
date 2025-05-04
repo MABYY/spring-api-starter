@@ -28,7 +28,7 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UMapper userMapper;
-    private final PasswordEncoder passwordEncoder
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public List<UserDTO> getAllUsers(
@@ -82,7 +82,6 @@ public class UserController {
                     Map.of("email", "Select another email")
             );
         }
-        // Hash Password
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
