@@ -1,9 +1,11 @@
 package com.codewithmosh.store.controllers;
 
+import com.codewithmosh.store.dtos.JwtResponseDTO;
 import com.codewithmosh.store.dtos.LoginRequestDTO;
 import com.codewithmosh.store.exceptions.ProductNotFoundException;
 import com.codewithmosh.store.mappers.UMapper;
 import com.codewithmosh.store.repositories.UserRepository;
+import com.codewithmosh.store.services.JwtService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -24,10 +26,11 @@ import java.util.Map;
 @Tag(name="Auth")
 public class AuthController {
 
-//    private final UserRepository userRepository;
-//    private final UMapper userMapper;
-//    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<Void> handleBadCredentials(){
@@ -36,7 +39,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> registerUser(
+    public ResponseEntity<JwtResponseDTO> login(
             @Valid @RequestBody LoginRequestDTO request,
             UriComponentsBuilder uriComponentsBuilder
     ){
@@ -47,7 +50,8 @@ public class AuthController {
                 )
         );
 
-        return ResponseEntity.ok().build();
+        var token = jwtService.generateToken(request.getEmail());
+        return ResponseEntity.ok( new JwtResponseDTO(token));
 
 //        var user = userRepository.findByEmail(request.getEmail()).orElse(null);
 //        if(user == null){
