@@ -2,6 +2,7 @@ package com.codewithmosh.store.controllers;
 
 import com.codewithmosh.store.dtos.JwtResponseDTO;
 import com.codewithmosh.store.dtos.LoginRequestDTO;
+import com.codewithmosh.store.dtos.UserDTO;
 import com.codewithmosh.store.exceptions.ProductNotFoundException;
 import com.codewithmosh.store.mappers.UMapper;
 import com.codewithmosh.store.repositories.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,6 +39,26 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     };
 
+    @PostMapping("/validate")
+    public Boolean validate( @RequestHeader("Authorization") String token ){
+        return jwtService.validateToken(token.substring(7));
+    };
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> me(){
+        System.out.println("@GetMapping ME");
+        // Get security auth object
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+//        var email = (String) authentication.getPrincipal();
+//        var user = userRepository.findByEmail(email).orElse(null);
+        var userID = (Long) authentication.getPrincipal();
+        var user = userRepository.findById(userID).orElse(null);
+        if (user == null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(userMapper.toUserDto(user));
+        }
+    };
 
     @PostMapping("/login")
     public ResponseEntity<JwtResponseDTO> login(
@@ -50,8 +72,19 @@ public class AuthController {
                 )
         );
 
-        var token = jwtService.generateToken(request.getEmail());
+        // Generate the token using a complete user object
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
+        var token = jwtService.generateToken(user);
         return ResponseEntity.ok( new JwtResponseDTO(token));
+
+        // Generate the token using a complete email
+//        var token = jwtService.generateToken(request.getEmail());
+//        return ResponseEntity.ok( new JwtResponseDTO(token));
+
+    };
+}
+
+
 
 //        var user = userRepository.findByEmail(request.getEmail()).orElse(null);
 //        if(user == null){
@@ -63,5 +96,3 @@ public class AuthController {
 //            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 //        };
 //        return ResponseEntity.ok().build();
-    };
-}

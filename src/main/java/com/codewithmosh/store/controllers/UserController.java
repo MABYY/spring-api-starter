@@ -4,6 +4,7 @@ import com.codewithmosh.store.dtos.ChangePasswordDTO;
 import com.codewithmosh.store.dtos.UserUpdateDTO;
 import com.codewithmosh.store.dtos.UserDTO;
 import com.codewithmosh.store.dtos.UserRegisterDTO;
+import com.codewithmosh.store.entities.Role;
 import com.codewithmosh.store.mappers.UMapper;
 import com.codewithmosh.store.repositories.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -84,6 +85,7 @@ public class UserController {
         }
         var user = userMapper.toEntity(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setRole(Role.USER);
         userRepository.save(user);
 
         var userDto = userMapper.toUserDto(user);
