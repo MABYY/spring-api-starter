@@ -46,7 +46,6 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<UserDTO> me(){
-        System.out.println("@GetMapping ME");
         // Get security auth object
         var authentication = SecurityContextHolder.getContext().getAuthentication();
 //        var email = (String) authentication.getPrincipal();

@@ -1,16 +1,16 @@
 package com.codewithmosh.store.dtos;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class CartProductDTO {
-    private Long id ;
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderProductDTO {
+    private Long id;
     private String name;
     private BigDecimal price;
-
 }

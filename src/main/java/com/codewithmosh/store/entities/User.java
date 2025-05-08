@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Setter
 @Getter
 @AllArgsConstructor
@@ -19,6 +20,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "name")

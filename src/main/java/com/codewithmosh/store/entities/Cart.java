@@ -34,8 +34,10 @@ public class Cart {
         return cartItems.stream()
                 .map(CartItem::getTotalPrice)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-
     };
 
+    public boolean isEmptyCart( ){
+        return cartItems.isEmpty();
+    }
 
 }

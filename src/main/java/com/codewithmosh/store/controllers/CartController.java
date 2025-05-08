@@ -35,7 +35,7 @@ public class CartController {
         return ResponseEntity.created(uri).body(cartDTO);
     }
 
-    @PostMapping("/{cartId}/items")
+    @PostMapping("/items/{cartId}")
     public ResponseEntity<CartItemDTO> addItemToCart (
             @PathVariable UUID cartId,
             @RequestBody AddItemToCartDTO request
@@ -69,7 +69,7 @@ public class CartController {
 
     };
 
-    @DeleteMapping("/{cartId}/items")
+    @DeleteMapping("/items/{cartId}")
     public ResponseEntity<?> clearCartItems( @PathVariable UUID cartId ) {
         cartService.clearCartItems(cartId);
         return ResponseEntity.noContent().build();
