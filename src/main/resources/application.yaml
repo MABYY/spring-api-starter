@@ -19,3 +19,6 @@ springdoc:
     enabled: true
     path: /swagger-ui.html
   api-docs.path: /api-docs
+
+stripe:
+  secretKey:${STRIPE_SECRET_KEY}

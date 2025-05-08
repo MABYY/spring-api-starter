@@ -61,6 +61,12 @@
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.stripe</groupId>
+            <artifactId>stripe-java</artifactId>
+        </dependency>
+
+
 
         <!--        <dependency>-->
 <!--            <artifactId>mysql-connector-j</artifactId>-->
