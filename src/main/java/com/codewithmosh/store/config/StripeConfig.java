@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class StripeConfig {
 
     @Value("${stripe.secretKey}")
-    private String secretKey;
+    private String secretKey ;
 
     @PostConstruct // call when bean is created
     public void init(){
