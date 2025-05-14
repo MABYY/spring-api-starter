@@ -28,8 +28,6 @@ public class OrderService {
     }
 
     public OrderDTO getOrderBy(Long id){
-
-        System.out.println("START");
         var order = orderRepository.getOrderWithItems(id)
                 .orElseThrow(OrderNotFoundException::new);
 
