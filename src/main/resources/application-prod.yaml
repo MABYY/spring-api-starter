@@ -2,8 +2,6 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     driver-class-name: org.postgresql.Driver
-  flyway:
-    baseline-on-migrate: true
 websiteUrl: http://localhost:4200
 
 
